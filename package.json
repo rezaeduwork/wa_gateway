@@ -1,0 +1,16 @@
+{
+  "name": "wa_gateway",
+  "version": "1.0.0",
+  "description": "WhatsApp Gateway backend using Node.js, Express, and Baileys",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@peculiar/webcrypto": "^1.5.0",
+    "@whiskeysockets/baileys": "github:WhiskeySockets/Baileys#master",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2"
+  }
+}
