@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const EventEmitter = require('events');
+const { writeLog } = require('../helpers/log');
 
 // Create a connections map to store multiple WhatsApp connections
 const connections = new Map();
@@ -174,7 +175,6 @@ async function notifyLaravelBackend(payload) {
       if (payload.connectionId) {
         payloadNew['connectionId'] = payload.connectionId;
       }
-      // Log removed
       // First try the primary webhook URL
       const response = await axios.post(primaryWebhookUrl, payloadNew, { headers, timeout: 5000 });
       const data = await response.data;
@@ -186,6 +186,9 @@ async function notifyLaravelBackend(payload) {
     } catch (primaryError) {
       // Keep error logging
       console.error(`Failed to notify webhook (${primaryWebhookUrl}): ${primaryError.message}`);
+      try {
+        writeLog(payloadNew['type'].replace(' ','_')+String(Math.floor(Date.now() / 60000))+'.log', JSON.stringify(payloadNew));      
+      } catch (error) {}
     }
   } catch (error) {
     // Keep error logging
